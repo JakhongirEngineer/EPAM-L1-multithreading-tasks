@@ -3,6 +3,9 @@ package com.epam.l2.multithreading.task3;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Consumer can consume from multiple topics
+ */
 public class Consumer implements Runnable{
     private final List<Topic> topics;
 
@@ -25,7 +28,7 @@ public class Consumer implements Runnable{
     @Override
     public void run() {
         while (true){
-            topics.forEach(topic -> System.out.println(topic.consume()));
+            topics.forEach(topic -> System.out.println(Thread.currentThread().getName() + " consumes: " + topic.consume()));
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {

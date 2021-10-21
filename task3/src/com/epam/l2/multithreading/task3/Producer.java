@@ -6,6 +6,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Producer implements Runnable{
     private  List<Topic> topics;
+
+    // long string is split to create an array of string words.
     private final String[] words = ("Kafka clusters can have one or more brokers " +
             "Brokers can host multiple replicas Topics can have one or more partitions " +
             "A broker can host zero or one replica per partition A partition has one leader " +
@@ -32,7 +34,7 @@ public class Producer implements Runnable{
         while (true){
             String message = generateRandomMessage();
             try {
-                topics.forEach(topic -> topic.produce(message));
+                topics.forEach(topic -> topic.produce(message)); // prints out messages coming from topic
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -40,7 +42,7 @@ public class Producer implements Runnable{
             }
         }
     }
-
+    // generates a random message
     private String generateRandomMessage(){
         return words[ThreadLocalRandom.current().nextInt(0, words.length)] +
                 " " + words[ThreadLocalRandom.current().nextInt(0, words.length)] +
