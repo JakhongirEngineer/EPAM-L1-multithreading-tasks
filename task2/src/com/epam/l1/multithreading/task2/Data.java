@@ -1,4 +1,4 @@
-package com.epam.task2;
+package com.epam.l1.multithreading.task2;
 
 import java.util.ArrayList;
 import java.util.List;
