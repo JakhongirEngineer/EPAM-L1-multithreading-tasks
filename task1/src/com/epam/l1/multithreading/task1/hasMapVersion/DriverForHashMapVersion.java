@@ -5,7 +5,7 @@ import java.util.Map;
 
 // works fine for a while until ConcurrentModificationException rises.
 // After the exception occurs, one of the threads stops modifying the map
-public class MainDriver {
+public class DriverForHashMapVersion {
     public static void main(String[] args) {
         Map<Integer,Integer> map = new HashMap<>();
         WriterToTheMap writerToTheMap = new WriterToTheMap(map);
