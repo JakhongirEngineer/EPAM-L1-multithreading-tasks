@@ -1,13 +1,11 @@
-package com.epam.l1.multithreading.task1.hasMapVersion;
+package com.epam.l1.multithreading.task1;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
-// works fine for a while until ConcurrentModificationException rises.
-// After the exception occurs, one of the threads stops modifying the map
-public class DriverForHashMapVersion {
+public class DriverForConcurrentHashMapVersion {
     public static void main(String[] args) {
-        Map<Integer,Integer> map = new HashMap<>();
+        Map<Integer,Integer> map = new ConcurrentHashMap<>();
         WriterToTheMap writerToTheMap = new WriterToTheMap(map);
         ValueSummerOfTheMap valueSummerOfTheMap = new ValueSummerOfTheMap(map);
 

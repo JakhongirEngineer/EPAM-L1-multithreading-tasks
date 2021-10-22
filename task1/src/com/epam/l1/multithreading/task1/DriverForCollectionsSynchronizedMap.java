@@ -1,7 +1,5 @@
-package com.epam.l1.multithreading.task1.hasMapVersion;
-
+package com.epam.l1.multithreading.task1;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
