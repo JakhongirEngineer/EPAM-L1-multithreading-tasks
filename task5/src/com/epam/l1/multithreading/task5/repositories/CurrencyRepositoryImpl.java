@@ -6,6 +6,7 @@ import com.epam.l1.multithreading.task5.entities.Currency;
 import java.util.Optional;
 
 public class CurrencyRepositoryImpl implements CurrencyRepository {
+
     @Override
     public Optional<Currency> findByCode(String code) {
         return Optional.empty();
