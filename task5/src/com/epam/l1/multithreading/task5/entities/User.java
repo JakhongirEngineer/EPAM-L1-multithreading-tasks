@@ -1,21 +1,22 @@
 package com.epam.l1.multithreading.task5.entities;
 
-import java.util.Set;
+import java.math.BigDecimal;
+import java.util.Map;
 
 public class User {
     private String firstName;
     private String lastName;
     private String password;
-    private Set<Currency> currencies;
+    private Map<Currency, BigDecimal> balance;
 
     public User() {
     }
 
-    public User(String firstName, String lastName, String password, Set<Currency> currencies) {
+    public User(String firstName, String lastName, String password, Map<Currency, BigDecimal> balance) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.password = password;
-        this.currencies = currencies;
+        this.balance = balance;
     }
 
     public String getFirstName() {
@@ -42,11 +43,11 @@ public class User {
         this.password = password;
     }
 
-    public Set<Currency> getCurrencies() {
-        return currencies;
+    public Map<Currency, BigDecimal> getBalance() {
+        return balance;
     }
 
-    public void setCurrencies(Set<Currency> currencies) {
-        this.currencies = currencies;
+    public void setBalance(Map<Currency, BigDecimal> balance) {
+        this.balance = balance;
     }
 }
