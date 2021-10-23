@@ -2,11 +2,12 @@ package com.epam.l1.multithreading.task5.repositories;
 
 import com.epam.l1.multithreading.task5.entities.Currency;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public interface CurrencyRepository {
 
-    Optional<Currency> findByCode(String code);
+    Optional<Currency> findByCode(String code, String fileName) throws IOException;
 
     boolean delete(Currency currency);
 

@@ -4,11 +4,30 @@ import com.epam.l1.multithreading.task5.entities.Currency;
 import com.epam.l1.multithreading.task5.repositories.*;
 import com.epam.l1.multithreading.task5.services.CurrencyExchangeService;
 
+import java.io.File;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 
 public class CurrencyExchangeApplication {
+    private static final String basePathName;
+    private static final String exchangeRatesFileName;
+    private static final String supportedCurrenciesFileName;
+    private static final String user1FileName;
+    private static final String user2FileName;
+    private static final String user3FileName;
+    private static final String user4FileName;
+
+    static {
+        basePathName = "task5/src/resources/";
+        exchangeRatesFileName = new File(basePathName +"exchangeRates.txt").getAbsolutePath();
+        supportedCurrenciesFileName = new File(basePathName +"supported_currencies.txt").getAbsolutePath();
+        user1FileName = new File(basePathName + "user1.txt").getAbsolutePath();
+        user2FileName = new File(basePathName + "user2.txt").getAbsolutePath();
+        user3FileName = new File(basePathName + "user3.txt").getAbsolutePath();
+        user4FileName = new File( basePathName +"user4.txt").getAbsolutePath();
+    }
+
     public static void main(String[] args) {
 
         UserRepository userRepository = new UserRepositoryImpl();
@@ -17,6 +36,8 @@ public class CurrencyExchangeApplication {
 
         CurrencyExchangeService currencyExchangeService =
                 new CurrencyExchangeService(userRepository,currencyRepository,exchangeRateRepository);
+
+
 
         ExecutorService executorService = Executors.newFixedThreadPool(5);
 
@@ -58,5 +79,8 @@ public class CurrencyExchangeApplication {
 
 
         executorService.shutdown();
+
     }
+
+
 }
