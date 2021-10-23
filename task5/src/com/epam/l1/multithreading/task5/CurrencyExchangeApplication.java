@@ -7,6 +7,7 @@ import com.epam.l1.multithreading.task5.services.CurrencyExchangeService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
 public class CurrencyExchangeApplication {
     public static void main(String[] args) {
 
@@ -54,5 +55,8 @@ public class CurrencyExchangeApplication {
         executorService.submit(() -> currencyExchangeService.exchange(4,USD,SUM));
         executorService.submit(() -> currencyExchangeService.exchange(4,SUM,USD));
         executorService.submit(() -> currencyExchangeService.exchange(4,SUM,EUR));
+
+
+        executorService.shutdown();
     }
 }

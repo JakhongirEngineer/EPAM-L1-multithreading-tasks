@@ -21,7 +21,6 @@ public class CurrencyExchangeService{
     public synchronized boolean exchange(int userId, Currency from, Currency to){
 
         System.out.println("userId: " + userId + " from: " + from.getCode() + " to: " + to.getCode());
-
         return true;
     }
 }
