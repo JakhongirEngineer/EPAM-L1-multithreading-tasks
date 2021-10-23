@@ -1,0 +1,12 @@
+user_start
+metadata_start
+firstName:Tony
+lastName:Robins
+password:excitement
+metadata_end
+balance_start
+USD:9999
+SUM:660000
+EUR:7070
+balance_end
+user_end

@@ -1,0 +1,12 @@
+user_start
+metadata_start
+firstName:Albert
+lastName:Einstein
+password:MC2
+metadata_end
+balance_start
+USD:7777
+SUM:990000
+EUR:9000
+balance_end
+user_end

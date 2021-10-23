@@ -1,0 +1,12 @@
+user_start
+metadata_start
+firstName:John
+lastName:Dao
+password:12345
+metadata_end
+balance_start
+USD:2000
+SUM:400000
+EUR:5000
+balance_end
+user_end

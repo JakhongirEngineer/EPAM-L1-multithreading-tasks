@@ -1,0 +1,12 @@
+user_start
+metadata_start
+firstName:Aj
+lastName:Hoge
+password:pass123
+metadata_end
+balance_start
+USD:32455
+SUM:0
+EUR:889900
+balance_end
+user_end
