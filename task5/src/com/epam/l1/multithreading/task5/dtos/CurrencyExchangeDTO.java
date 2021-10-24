@@ -9,19 +9,19 @@ public class CurrencyExchangeDTO {
     private Currency to;
     private String userFileName;
     private String currencyFileName;
-    private BigDecimal fromAmount;
     private BigDecimal toAmount;
+    private String exchangeRatesFileName;
 
     public CurrencyExchangeDTO() {
     }
 
-    public CurrencyExchangeDTO(Currency from, Currency to, String userFileName, String currencyFileName, BigDecimal fromAmount, BigDecimal toAmount) {
+    public CurrencyExchangeDTO(Currency from, Currency to, String userFileName, String currencyFileName, BigDecimal toAmount, String exchangeRatesFileName) {
         this.from = from;
         this.to = to;
         this.userFileName = userFileName;
         this.currencyFileName = currencyFileName;
-        this.fromAmount = fromAmount;
         this.toAmount = toAmount;
+        this.exchangeRatesFileName = exchangeRatesFileName;
     }
 
     public Currency getFrom() {
@@ -56,19 +56,19 @@ public class CurrencyExchangeDTO {
         this.currencyFileName = currencyFileName;
     }
 
-    public BigDecimal getFromAmount() {
-        return fromAmount;
-    }
-
-    public void setFromAmount(BigDecimal fromAmount) {
-        this.fromAmount = fromAmount;
-    }
-
     public BigDecimal getToAmount() {
         return toAmount;
     }
 
     public void setToAmount(BigDecimal toAmount) {
         this.toAmount = toAmount;
+    }
+
+    public String getExchangeRatesFileName() {
+        return exchangeRatesFileName;
+    }
+
+    public void setExchangeRatesFileName(String exchangeRatesFileName) {
+        this.exchangeRatesFileName = exchangeRatesFileName;
     }
 }

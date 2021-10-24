@@ -6,23 +6,26 @@ import com.epam.l1.multithreading.task5.entities.ExchangeRate;
 import com.epam.l1.multithreading.task5.entities.User;
 import com.epam.l1.multithreading.task5.exceptions.ExchangeNotSupported;
 import com.epam.l1.multithreading.task5.exceptions.ExchangeRateNotFound;
+import com.epam.l1.multithreading.task5.exceptions.InsufficientMoneyForExchange;
 import com.epam.l1.multithreading.task5.repositories.CurrencyRepository;
 import com.epam.l1.multithreading.task5.repositories.ExchangeRateRepository;
 import com.epam.l1.multithreading.task5.repositories.UserRepository;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
+
 
 public class CurrencyExchangeService{
     private final UserRepository userRepository;
     private final CurrencyRepository currencyRepository;
     private final ExchangeRateRepository exchangeRateRepository;
 
+    private static final Logger LOGGER = Logger.getLogger(CurrencyExchangeService.class.getName());
 
     public CurrencyExchangeService(UserRepository userRepository,
                                    CurrencyRepository currencyRepository,
@@ -35,18 +38,43 @@ public class CurrencyExchangeService{
     public synchronized boolean exchange(CurrencyExchangeDTO currencyExchangeDTO) throws ExchangeNotSupported {
 
         try {
+            Optional<ExchangeRate> optionalExchangeRate = exchangeRateRepository.findByFromAndTo(currencyExchangeDTO.getFrom(), currencyExchangeDTO.getTo(), currencyExchangeDTO.getExchangeRatesFileName());
+            ExchangeRate exchangeRate = optionalExchangeRate.orElseThrow();
             List<String> userDataLineByLine = userRepository.readUserData(currencyExchangeDTO.getUserFileName());
             User user = populateUserEntityWithData(userDataLineByLine);
+            LOGGER.info("userId: " + user.getId() + " userFirstName: " + user.getFirstName() + " exchanges FROM: " + currencyExchangeDTO.getFrom().getCode() + " TO: " + currencyExchangeDTO.getTo().getCode() + " with rate: " + exchangeRate.getRate());
 
-            Optional<ExchangeRate> optionalExchangeRate = exchangeRateRepository.findByFromAndTo(currencyExchangeDTO.getFrom(), currencyExchangeDTO.getTo(), currencyExchangeDTO.getCurrencyFileName());
-
-
-
-        } catch (IOException | ExchangeRateNotFound e) {
+            exchangeHelper(user, currencyExchangeDTO, exchangeRate.getRate());
+        } catch (IOException | ExchangeRateNotFound | InsufficientMoneyForExchange e) {
             e.printStackTrace();
         }
         return true;
     }
+
+    private  void exchangeHelper(User user, CurrencyExchangeDTO currencyExchangeDTO, double rate) throws InsufficientMoneyForExchange {
+        Currency from = currencyExchangeDTO.getFrom();
+        Currency to = currencyExchangeDTO.getTo();
+        BigDecimal toAmount = currencyExchangeDTO.getToAmount();
+
+        BigDecimal fromBalance = user.getBalance().getOrDefault(from, new BigDecimal(0));
+
+        BigDecimal toAmountMultipliedByRate = new BigDecimal(String.valueOf(toAmount.multiply(new BigDecimal(rate))));
+        int comparisonResult = fromBalance.compareTo(toAmountMultipliedByRate);
+
+        if (comparisonResult < 0) {
+            throw new InsufficientMoneyForExchange("money is insufficient for exchange");
+        }
+
+        user.getBalance().put(from, user.getBalance().get(from).subtract(toAmountMultipliedByRate) );
+        user.getBalance().put(to, user.getBalance().getOrDefault(to, new BigDecimal(0)).add(toAmountMultipliedByRate));
+        LOGGER.info(user.getFirstName() + " " + user.getLastName() + " exchanged FROM " + currencyExchangeDTO.getFrom().getCode() + " amount: " + toAmountMultipliedByRate + " TO " + currencyExchangeDTO.getTo().getCode() + " amount: " + toAmount);
+        try {
+            userRepository.update(user, currencyExchangeDTO.getUserFileName());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     // implementation is specific to the information structured in the file namely user1.txt, user2.txt and so on
     private User populateUserEntityWithData(List<String> userDataLineByLine){
         User user = new User();
