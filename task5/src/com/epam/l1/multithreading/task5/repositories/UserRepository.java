@@ -1,21 +1,19 @@
 package com.epam.l1.multithreading.task5.repositories;
 
 import com.epam.l1.multithreading.task5.entities.User;
+import com.epam.l1.multithreading.task5.exceptions.UnableToCreateFile;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Optional;
 
 public interface UserRepository {
 
-    Optional<User> findById(int id);
+    User create(User user, String fileName) throws IOException, UnableToCreateFile;
 
-    Optional<List<User>> findAll();
+    List<String> readUserData(String fileName) throws IOException;
 
-    User update(User user);
+    boolean update(User user, String fileName) throws IOException;
 
-    User create(User user);
+    boolean delete(String fileName) throws IOException;
 
-    boolean delete(User user);
-
-    boolean deleteById(int id);
 }

@@ -74,5 +74,4 @@ public class ExchangeRateRepositoryImpl implements ExchangeRateRepository{
         FileHandlerUtils.overrideFileContent(fileName,exchangeRatesInFile);
         return exchangeRate;
     }
-
 }
