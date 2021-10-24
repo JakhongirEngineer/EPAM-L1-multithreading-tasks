@@ -28,8 +28,9 @@ public class FileHandlerUtils {
         Files.delete(Paths.get(fileName));
     }
 
-    public static boolean updateFile(String fileName, List<String> newContent) throws IOException {
+    public static boolean overrideFileContent(String fileName, List<String> newContent) throws IOException {
         Files.write(Path.of(fileName), newContent);
         return true;
     }
+
 }
