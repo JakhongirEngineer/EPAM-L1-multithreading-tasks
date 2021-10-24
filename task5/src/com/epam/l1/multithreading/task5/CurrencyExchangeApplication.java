@@ -37,8 +37,6 @@ public class CurrencyExchangeApplication {
         CurrencyExchangeService currencyExchangeService =
                 new CurrencyExchangeService(userRepository,currencyRepository,exchangeRateRepository);
 
-
-
         ExecutorService executorService = Executors.newFixedThreadPool(5);
 
         Currency EUR = new Currency("EUR");
@@ -79,8 +77,5 @@ public class CurrencyExchangeApplication {
 
 
         executorService.shutdown();
-
     }
-
-
 }
