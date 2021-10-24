@@ -1,13 +1,13 @@
-package com.epam.l1.multithreading.task6.classic;
+package com.epam.l1.multithreading.task6;
 
 import java.util.List;
 
-public class Data {
+public class DataClassic {
     private List<Integer> integers;
 
     private boolean writable = true;
 
-    public Data(List<Integer> integers) {
+    public DataClassic(List<Integer> integers) {
         this.integers = integers;
     }
 
