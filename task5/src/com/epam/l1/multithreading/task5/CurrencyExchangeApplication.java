@@ -46,49 +46,47 @@ public class CurrencyExchangeApplication {
         Currency USD = new Currency("USD");
         Currency SUM = new Currency("SUM");
 
+        // data for user1
+        CurrencyExchangeDTO user1FromSUMToUSD = new CurrencyExchangeDTO();
+        user1FromSUMToUSD.setCurrencyFileName(supportedCurrenciesFileName);
+        user1FromSUMToUSD.setUserFileName(user1FileName);
+        user1FromSUMToUSD.setFrom(SUM);
+        user1FromSUMToUSD.setTo(USD);
+        user1FromSUMToUSD.setToAmount(new BigDecimal(5)); // wanting to get 10 dollars
+        user1FromSUMToUSD.setExchangeRatesFileName(exchangeRatesFileName);
 
-        CurrencyExchangeDTO currencyExchangeDTO = new CurrencyExchangeDTO();
-        currencyExchangeDTO.setCurrencyFileName(supportedCurrenciesFileName);
-        currencyExchangeDTO.setUserFileName(user1FileName);
-        currencyExchangeDTO.setFrom(SUM);
-        currencyExchangeDTO.setTo(USD);
-        currencyExchangeDTO.setToAmount(new BigDecimal(5)); // wanting to get 10 dollars
-        currencyExchangeDTO.setExchangeRatesFileName(exchangeRatesFileName);
+        executorService.submit(() -> currencyExchangeService.exchange(user1FromSUMToUSD));
 
-        executorService.submit(() -> currencyExchangeService.exchange(currencyExchangeDTO));
+        CurrencyExchangeDTO user1FromSUMToEUR = copyCurrencyExchangeRateDTO(user1FromSUMToUSD);
+        user1FromSUMToEUR.setTo(EUR);
+        executorService.submit(() -> currencyExchangeService.exchange(user1FromSUMToEUR));
 
-//        // for user1
-//        executorService.submit(() -> currencyExchangeService.exchange(1,EUR,USD));
-//        executorService.submit(() -> currencyExchangeService.exchange(1,EUR,SUM));
-//        executorService.submit(() -> currencyExchangeService.exchange(1,USD,EUR));
-//        executorService.submit(() -> currencyExchangeService.exchange(1,USD,SUM));
-//        executorService.submit(() -> currencyExchangeService.exchange(1,SUM,USD));
-//        executorService.submit(() -> currencyExchangeService.exchange(1,SUM,EUR));
-//
-//        // for user2
-//        executorService.submit(() -> currencyExchangeService.exchange(2,EUR,USD));
-//        executorService.submit(() -> currencyExchangeService.exchange(2,EUR,SUM));
-//        executorService.submit(() -> currencyExchangeService.exchange(2,USD,EUR));
-//        executorService.submit(() -> currencyExchangeService.exchange(2,USD,SUM));
-//        executorService.submit(() -> currencyExchangeService.exchange(2,SUM,USD));
-//        executorService.submit(() -> currencyExchangeService.exchange(2,SUM,EUR));
-//
-//        // for user3
-//        executorService.submit(() -> currencyExchangeService.exchange(3,EUR,USD));
-//        executorService.submit(() -> currencyExchangeService.exchange(3,EUR,SUM));
-//        executorService.submit(() -> currencyExchangeService.exchange(3,USD,EUR));
-//        executorService.submit(() -> currencyExchangeService.exchange(3,USD,SUM));
-//        executorService.submit(() -> currencyExchangeService.exchange(3,SUM,USD));
-//        executorService.submit(() -> currencyExchangeService.exchange(3,SUM,EUR));
-//
-//        // for user4
-//        executorService.submit(() -> currencyExchangeService.exchange(4,EUR,USD));
-//        executorService.submit(() -> currencyExchangeService.exchange(4,EUR,SUM));
-//        executorService.submit(() -> currencyExchangeService.exchange(4,USD,EUR));
-//        executorService.submit(() -> currencyExchangeService.exchange(4,USD,SUM));
-//        executorService.submit(() -> currencyExchangeService.exchange(4,SUM,USD));
-//        executorService.submit(() -> currencyExchangeService.exchange(4,SUM,EUR));
+        CurrencyExchangeDTO user1FromUSDToEUR = copyCurrencyExchangeRateDTO(user1FromSUMToEUR);
+        user1FromUSDToEUR.setFrom(USD);
+        executorService.submit(() -> currencyExchangeService.exchange(user1FromUSDToEUR));
+
+        // data for user2
+        CurrencyExchangeDTO user2FromUSDToEUR = copyCurrencyExchangeRateDTO(user1FromUSDToEUR);
+        user2FromUSDToEUR.setUserFileName(user2FileName);
+
+        executorService.submit(() -> currencyExchangeService.exchange(user2FromUSDToEUR));
+
+        CurrencyExchangeDTO user2FromSUMToEUR = copyCurrencyExchangeRateDTO(user1FromSUMToUSD);
+        user2FromSUMToEUR.setUserFileName(user2FileName);
+        executorService.submit(() -> currencyExchangeService.exchange(user2FromSUMToEUR));
 
         executorService.shutdown();
+    }
+
+    private static CurrencyExchangeDTO copyCurrencyExchangeRateDTO(CurrencyExchangeDTO dto){
+        CurrencyExchangeDTO newDTO = new CurrencyExchangeDTO();
+        newDTO.setToAmount(dto.getToAmount());
+        newDTO.setFrom(dto.getFrom());
+        newDTO.setTo(dto.getTo());
+        newDTO.setCurrencyFileName(dto.getCurrencyFileName());
+        newDTO.setExchangeRatesFileName(dto.getExchangeRatesFileName());
+        newDTO.setUserFileName(dto.getUserFileName());
+
+        return newDTO;
     }
 }
